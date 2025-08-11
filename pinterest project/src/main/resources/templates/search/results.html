@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Arama Sonuçları</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <style>
+        .result-section { 
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .result-type-tabs {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        .tab-button.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .result-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .result-item:hover {
+            background-color: #f8f9fa;
+        }
+        .no-results {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="container">
+        <h2>Arama Sonuçları: "<span th:text="${query}"></span>"</h2>
+
+        <div class="result-type-tabs">
+            <button class="tab-button active" onclick="showResults('all')">Tümü</button>
+            <button class="tab-button" onclick="showResults('users')">Kullanıcılar</button>
+            <button class="tab-button" onclick="showResults('boards')">Panolar</button>
+            <button class="tab-button" onclick="showResults('pins')">Pinler</button>
+        </div>
+
+        <!-- Tüm Sonuçlar -->
+        <div id="all" class="result-section">
+            <!-- Kullanıcılar -->
+            <div th:if="${not #lists.isEmpty(users)}">
+                <h3>Kullanıcılar</h3>
+                <div class="result-item" th:each="user : ${users}">
+                    <a th:href="@{/user/{id}(id=${user.id})}" th:text="${user.username}">Kullanıcı Adı</a>
+                </div>
+            </div>
+
+            <!-- Panolar -->
+            <div th:if="${not #lists.isEmpty(boards)}">
+                <h3>Panolar</h3>
+                <div class="result-item" th:each="board : ${boards}">
+                    <a th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.name}">Pano Adı</a>
+                    <span th:if="${board.owner}" th:text="'(' + ${board.owner.username} + ')'"></span>
+                </div>
+            </div>
+
+            <!-- Pinler -->
+            <div th:if="${not #lists.isEmpty(pins)}">
+                <h3>Pinler</h3>
+                <div class="result-item" th:each="pin : ${pins}">
+                    <a th:href="@{/pins/{id}(id=${pin.id})}" th:text="${pin.title}">Pin Başlığı</a>
+                    <span th:if="${pin.owner}" th:text="'(' + ${pin.owner.username} + ')'"></span>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(users) and #lists.isEmpty(boards) and #lists.isEmpty(pins)}" class="no-results">
+                Sonuç bulunamadı.
+            </div>
+        </div>
+
+        <!-- Sadece Kullanıcılar -->
+        <div id="users" class="result-section" style="display: none;">
+            <div th:if="${not #lists.isEmpty(users)}">
+                <div class="result-item" th:each="user : ${users}">
+                    <a th:href="@{/user/{id}(id=${user.id})}" th:text="${user.username}">Kullanıcı Adı</a>
+                </div>
+            </div>
+            <div th:if="${#lists.isEmpty(users)}" class="no-results">
+                Kullanıcı bulunamadı.
+            </div>
+        </div>
+
+        <!-- Sadece Panolar -->
+        <div id="boards" class="result-section" style="display: none;">
+            <div th:if="${not #lists.isEmpty(boards)}">
+                <div class="result-item" th:each="board : ${boards}">
+                    <a th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.name}">Pano Adı</a>
+                    <span th:if="${board.owner}" th:text="'(' + ${board.owner.username} + ')'"></span>
+                </div>
+            </div>
+            <div th:if="${#lists.isEmpty(boards)}" class="no-results">
+                Pano bulunamadı.
+            </div>
+        </div>
+
+        <!-- Sadece Pinler -->
+        <div id="pins" class="result-section" style="display: none;">
+            <div th:if="${not #lists.isEmpty(pins)}">
+                <div class="result-item" th:each="pin : ${pins}">
+                    <a th:href="@{/pins/{id}(id=${pin.id})}" th:text="${pin.title}">Pin Başlığı</a>
+                    <span th:if="${pin.owner}" th:text="'(' + ${pin.owner.username} + ')'"></span>
+                </div>
+            </div>
+            <div th:if="${#lists.isEmpty(pins)}" class="no-results">
+                Pin bulunamadı.
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <script>
+        function showResults(type) {
+            // Tüm sonuç bölümlerini gizle
+            document.querySelectorAll('.result-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Seçilen bölümü göster
+            document.getElementById(type).style.display = 'block';
+            
+            // Aktif tab butonunu güncelle
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

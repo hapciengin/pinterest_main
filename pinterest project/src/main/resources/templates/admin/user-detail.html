@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Kullanıcı Detayı</title></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2 th:text="'Kullanıcı - ' + ${user.username}">Detay</h2>
+<p><strong>E-posta:</strong> <span th:text="${user.email}"/></p>
+
+<h3>Panoları</h3>
+<ul>
+  <li th:each="b: ${boards}">
+    <a th:href="@{'/boards/' + ${b.id}}"
+       th:text="${b.name}">Pano</a>
+  </li>
+</ul>
+
+<form th:action="@{'/admin/users/' + ${user.id} + '/delete'}" method="post">
+  <button onclick="return confirm('Bu kullanıcı silinsin mi?')">Kullanıcıyı Sil</button>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

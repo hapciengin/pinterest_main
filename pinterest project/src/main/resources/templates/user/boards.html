@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panolarım</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2>Panolarım</h2>
+<ul>
+  <li th:each="board : ${boards}">
+    <a th:href="@{'/boards/' + ${board.id}}"
+       th:text="${board.name}">Pano Adı</a>
+    <!-- Düzenle -->
+    <form th:action="@{'/boards/' + ${board.id} + '/edit'}" method="get" style="display: inline;">
+      <button type="submit" style="margin-left:10px; background-color: green; color: white">Düzenle</button>
+    </form>
+    <!-- Sil -->
+    <form th:action="@{'/boards/' + ${board.id} + '/delete'}"
+          method="post" style="display:inline; margin-left:5px;">
+      <button type="submit" style="color: white; margin-left: 5px; background-color: red"
+              onclick="return confirm('Bu panoyu silmek istediğinize emin misiniz?')">
+        Sil
+      </button>
+    </form>
+  </li>
+</ul>
+<div class="wrapper"></div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+</html>

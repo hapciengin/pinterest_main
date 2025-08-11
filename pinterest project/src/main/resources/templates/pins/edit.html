@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pin Düzenle</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2>Pin Düzenle</h2>
+
+<div th:if="${error}" style="color:red;">
+    <p th:text="${error}"></p>
+</div>
+
+<form th:action="@{'/pins/' + ${pinDto.id} + '/edit'}" method="post" th:object="${pinDto}">
+    <label for="title">Başlık:</label><br/>
+    <input type="text" id="title" th:field="*{title}" required/><br/><br/>
+
+    <label for="description">Açıklama:</label><br/>
+    <textarea id="description" th:field="*{description}"></textarea><br/><br/>
+
+    <label for="boardId">Pano:</label><br/>
+    <select id="boardId" th:field="*{boardId}" required>
+        <option th:each="board : ${boards}" th:value="${board.id}" th:text="${board.name}"></option>
+    </select><br/><br/>
+
+    <button type="submit">Güncelle</button>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

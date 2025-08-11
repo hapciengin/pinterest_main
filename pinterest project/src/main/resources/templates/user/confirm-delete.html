@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Hesabı Sil</title></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2>Hesabınızı silmek istediğinize emin misiniz?</h2>
+<form th:action="@{/profile/delete}" method="post">
+  <button type="submit">Evet, sil</button>
+  <a th:href="@{/profile}">Hayır, vazgeç</a>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

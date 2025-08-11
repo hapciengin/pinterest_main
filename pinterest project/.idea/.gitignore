@@ -1,0 +1,64 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+*.aar
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+build/ # BU SATIRIN OLDUĞUNDAN EMİN OLUN!
+.gradle/
+captures/
+.externalNativeBuild/
+.cxx/
+data-binding-enabled-component-classes/
+data-binding-base-classes-src-out/
+
+# Local configuration files (SDK locations, etc)
+local.properties # BU SATIRIN OLDUĞUNDAN EMİN OLUN!
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/libraries/
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/caches/
+.idea/render.experimental/
+.idea/compiler.xml
+.idea/deploymentTargetDropDown.xml
+.idea/runConfigurations.xml
+
+# Gradle
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# Keystore files
+*.keystore
+*.jks
+
+# Android Studio navigation editor files
+.navigation/
+
+# External native build.
+.externalBuild/
+
+# Google Services (if applicable)
+# google-services.json # Eğer hassas API anahtarları içeriyorsa yorum satırını kaldırın
+
+# Crashlytics or other plugin output
+crashlytics-build.properties
+fabric.properties
+
+# macOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
+# Misc
+*.iml
+logs/

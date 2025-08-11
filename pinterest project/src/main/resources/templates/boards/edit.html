@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pano Düzenle</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2>Pano Düzenle</h2>
+
+<form th:action="@{'/boards/' + ${boardDto.id} + '/edit'}" method="post" th:object="${boardDto}">
+    <label for="name">Pano Adı:</label><br/>
+    <input class="inputbox" type="text" id="name" th:field="*{name}" required/><br/><br/>
+    <button type="submit" style="background-color: green; color: white; border-radius: 5px">Güncelle</button>
+</form>
+
+<div class="wrapper"></div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

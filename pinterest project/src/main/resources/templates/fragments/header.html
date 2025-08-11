@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="header">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+
+<header class="navbar">
+  <nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+
+    <!-- Sol Menü -->
+    <div style="display: inline-block;">
+      <a th:href="@{/}">Ana Sayfa</a>
+      <sec:authorize access="isAuthenticated()">
+        | <a th:href="@{/pins/create}">Pin Ekle</a>
+        | <a th:href="@{/boards}">Panolarım</a>
+        | <a th:href="@{/boards/create}">Yeni Pano</a>
+        | <a th:href="@{/profile}">Profil</a>
+        | <a th:href="@{/logout}">Çıkış</a>
+      </sec:authorize>
+    </div>
+
+    <!-- Orta Arama -->
+    <div style="flex-grow: 1; text-align: center;">
+      <form th:action="@{/search}" method="get" style="display: inline-block;" id="searchForm">
+        <input class="inputbox" type="text" name="q" 
+               th:value="${param.q}" 
+               placeholder="Kullanıcı, pano veya pin ara..."/>
+        <button style="height: 25px;width: 50px; border-radius: 7px;font-size: 20px; background-color: green;color: white">Ara</button>
+      </form>
+    </div>
+
+    <!-- Sağ Giriş / Kayıt -->
+    <div style="display: inline-block; text-align: right;">
+      <sec:authorize access="!isAuthenticated()">
+        <a th:href="@{/login}">Giriş</a>
+        |
+        <a th:href="@{/register}">Kayıt</a>
+      </sec:authorize>
+    </div>
+    
+    <div>
+      <sec:authorize access="isAuthenticated()">
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+          | <a th:href="@{/admin/users}">Kullanıcı Yönetimi</a>
+        </div>
+      </sec:authorize>
+    </div>
+
+  </nav>
+  <hr/>
+</header>
+</html>

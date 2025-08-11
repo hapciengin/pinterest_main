@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Pano Detayı</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h2 th:text="${board.name}">Pano Adı</h2>
+<p>Sahibi: <span th:text="${board.owner.username}">owner</span></p>
+
+<div class="pin-list">
+  <div th:each="p : ${pins}" class="pin-item">
+    <a th:href="@{'/pins/' + ${p.pin.id}}">
+      <img th:src="'data:image/jpeg;base64,' + ${p.imgBase64}" width="200"/>
+    </a>
+    <h3 th:text="${p.pin.title}">Başlık</h3>
+
+    <!-- SADECE ADMIN GÖRSÜN -->
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+      <form th:action="@{'/pins/' + ${p.pin.id} + '/edit'}" method="get" style="display: inline;">
+        <button type="submit" style="margin-right: 10px;">Düzenle (A)</button>
+      </form>
+      <form th:action="@{'/pins/' + ${p.pin.id} + '/delete'}" method="post" style="display: inline;">
+        <button type="submit" style="color: white; background-color: red; border-radius: 5px;"
+                onclick="return confirm('Silinsin mi?')">Sil (A)</button>
+      </form>
+    </sec:authorize>
+
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

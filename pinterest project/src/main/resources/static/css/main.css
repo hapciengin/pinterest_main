@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4dfbb;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pin-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pin-item {
+    margin: 20px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color:palegoldenrod;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* ekran yüksekliği */
+}
+
+.center-div {
+    width: 400px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* sadece stil için (zorunlu değil) */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.inputbox{
+    height: 25px;
+    width: 200px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-style: normal;
+}
+.button_css{
+    height: 25px;
+    width: 175px;
+    font-size:18px ;
+    border-radius: 9px;
+    background-color: red;
+    color: #dddddd;
+
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Kullanıcılar</title></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2>Kullanıcılar</h2>
+<div th:if="${message}" th:text="${message}" style="color:green;"></div>
+<div th:if="${error}" th:text="${error}" style="color:red;"></div>
+
+<table border="1">
+  <tr><th>ID</th><th>Kullanıcı Adı</th><th>E-posta</th><th>İşlem</th></tr>
+  <tr th:each="u: ${users}">
+    <td th:text="${u.id}"/>
+    <td th:text="${u.username}"/>
+    <td th:text="${u.email}"/>
+    <td>
+      <a th:href="@{'/admin/users/' + ${u.id}}">Detay</a>
+      <form th:action="@{'/admin/users/' + ${u.id} + '/delete'}"
+            method="post" style="display:inline;margin-left:10px;">
+        <button onclick="return confirm('Silinsin mi?')">Sil</button>
+      </form>
+    </td>
+  </tr>
+</table>
+
+<div class="wrapper"></div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

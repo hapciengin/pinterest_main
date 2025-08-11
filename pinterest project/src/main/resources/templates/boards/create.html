@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Yeni Pano Oluştur</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="wrapper">
+    <div >
+<h2>Yeni Pano Oluştur</h2>
+
+<form th:action="@{/boards/create}" method="post" th:object="${boardDto}">
+    <center>
+    <input class="inputbox" type="text" id="name" th:field="*{name}" required  placeholder="Pano Adı"/><br/><br/>
+    <button class="button_css" type="submit">Pano Oluştur</button>
+    </center>
+</form>
+
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

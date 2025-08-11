@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Pin Detayı</title>
+  <style>
+    .button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-edit-owner { background-color: #28a745; }   /* Yeşil */
+    .btn-delete-owner { background-color: #dc3545; } /* Kırmızı */
+    .btn-edit-admin { background-color: #007bff; }   /* Mavi */
+    .btn-delete-admin { background-color: #8b0000; } /* Koyu kırmızı */
+  </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h2 th:text="${pin.title}">Başlık</h2>
+<img th:src="'data:image/jpeg;base64,' + ${imgBase64}" width="400"/>
+
+<p th:text="${pin.description}">Açıklama</p>
+<p>
+  Ekleyen:
+  <span th:text="${pin.owner != null ? pin.owner.username : 'Silinmiş Kullanıcı'}"></span>
+</p>
+<p>Tarih: <span th:text="${#temporals.format(pin.createdAt, 'dd.MM.yyyy HH:mm')}"/></p>
+
+<!-- Butonlar -->
+<div th:if="${currentUser != null}">
+  <!-- Sahip olan kullanıcı için -->
+  <div th:if="${isOwner}">
+    <form th:action="@{'/pins/' + ${pin.id} + '/edit'}" method="get" style="display:inline">
+      <button type="submit" class="button btn-edit-owner">Düzenle</button>
+    </form>
+    <form th:action="@{'/pins/' + ${pin.id} + '/delete'}" method="post" style="display:inline">
+      <button type="submit" onclick="return confirm('Silinsin mi?')" class="button btn-delete-owner">Sil</button>
+    </form>
+  </div>
+
+  <!-- Admin için -->
+  <div th:if="${isAdmin}">
+    <form th:action="@{'/pins/' + ${pin.id} + '/edit'}" method="get" style="display:inline">
+      <button type="submit" class="button btn-edit-admin">Düzenle (A)</button>
+    </form>
+    <form th:action="@{'/pins/' + ${pin.id} + '/delete'}" method="post" style="display:inline">
+      <button type="submit" onclick="return confirm('Silinsin mi?')" class="button btn-delete-admin">Sil (A)</button>
+    </form>
+  </div>
+</div>
+
+<hr/>
+
+<h3>Yorumlar:</h3>
+<div th:if="${pin.comments.isEmpty()}">Henüz yorum yok.</div>
+<div th:each="c: ${pin.comments}">
+  <p>
+    <strong th:text="${c.user != null ? c.user.username : 'Silinmiş Kullanıcı'}"></strong>:
+    <span th:text="${c.text}"></span>
+  </p>
+
+  <!-- Silme butonu (sadece yorum sahibi veya admin görebilir) -->
+  <div sec:authorize="isAuthenticated()">
+    <div th:if="${currentUser != null and (currentUser.username == c.user?.username or isAdmin)}">
+      <form th:action="@{'/pins/' + ${pin.id} + '/comments/' + ${c.id} + '/delete'}" method="post" style="display:inline">
+        <button type="submit" onclick="return confirm('Yorum silinsin mi?')" class="button btn-delete-owner">Yorumu Sil</button>
+      </form>
+    </div>
+  </div>
+  <hr/>
+</div>
+
+<!-- Yorum formu -->
+<div>
+  <!-- Giriş yapan kullanıcı için yorum formu -->
+  <div sec:authorize="isAuthenticated()">
+    <form th:action="@{'/pins/' + ${pin.id} + '/comments'}" method="post">
+      <textarea name="text" placeholder="Yorum yaz..." required></textarea>
+      <button type="submit" class="button btn-edit-owner" style="margin-top: 8px;">Gönder</button>
+    </form>
+  </div>
+
+  <!-- Giriş yapmayan kullanıcıya uyarı -->
+  <div sec:authorize="!isAuthenticated()">
+    <p>Yorum yapabilmek için <a th:href="@{/login}">giriş yapmalısınız</a>.</p>
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Giriş Yap</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div class="wrapper">
+<div class="center-div">
+    <h2>Oh My Image' Hoş Geldiniz</h2>
+
+    
+    <div th:if="${param.error}" style="color: red;">
+        Geçersiz kullanıcı adı veya şifre.
+    </div>
+    
+    <form th:action="@{/login}" method="post">
+        <label for="username">Kullanıcı Adı</label><br/>
+        <input type="text" id="username" class="inputbox" name="username" placeholder="Kullanıcı Adı"/><br/>
+        <br>
+        <label for="password">Password</label><br/>
+        <input type="password" id="password" class="inputbox" name="password" placeholder="Password" /><br/>
+        <p style="color: black"><a th:href="@{/forgot-password}">Şifrenizimi Unuttunuz</a></p>
+
+        <br>
+        <center><button class="button_css" type="submit">Oturum Aç</button></center>
+    </form>
+    
+    <div style="margin-top: 20px;">
+
+        <center>
+            <p>Ya da:</p>
+            <a href="/oauth2/authorization/google"
+               style="background-color: white;
+          border-radius: 9px;
+          text-decoration: none;
+          border: 2px solid darkred;
+          padding: 10px;
+          color: black;
+          display: inline-block;"
+               class="btn-google">
+                <img th:src="@{/images/google-icon.png}" alt="Google" style="width: 20px; vertical-align: middle;" />
+                Google ile Giriş Yap
+            </a>
+        </center>
+
+        <div style="margin-top: 20px;">
+            <p>Hesabınız yok mu? <a th:href="@{/register}">Kayıt Ol</a></p>
+        </div>
+    </div>
+    
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kayıt Ol</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div class="wrapper">
+<div class="center-div">
+    <h2>Oh My Image' Hoş Geldiniz</h2>
+    <br>
+    <form th:action="@{/register}" method="post" th:object="${userDto}">
+        <label for="username">Kullanıcı Adı:</label><br/>
+        <input class="inputbox" type="text" id="username" th:field="*{username}" placeholder="Username" /><br/>
+        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red;"></div><br/>
+        
+        <label for="email">E-posta:</label><br/>
+        <input class="inputbox" type="email" id="email" th:field="*{email}"placeholder="E-mail" /><br/>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></div><br/>
+        
+        <label for="password">Şifre:</label><br/>
+        <input class="inputbox" type="password" id="password" th:field="*{password}" placeholder="Password" /><br/>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></div><br/>
+
+        <center><button class="button_css" type="submit">Kayıt Ol</button></center>
+    </form>
+    <p style="font-weight: bold">Zaten hesabınız var mı? <a th:href="@{/login}">Giriş Yap</a></p>
+
+</div>
+</div>
+</body>
+</html>

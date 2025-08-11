@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Yeni Pin Oluştur</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="wrapper">
+    <div class="center-div">
+    <h2>Yeni Pin Oluştur</h2>
+
+    <div th:if="${error}" style="color: red; margin-bottom: 10px;">
+        <p th:text="${error}">Hata mesajı</p>
+    </div>
+
+
+    <div th:if="${#lists.isEmpty(boards)}">
+        <p>Hiç panonuz yok, önce bir pano oluşturmalısınız.</p>
+        <center><a th:href="@{/boards/create}" style="font-weight: bold" >Pano Oluştur</a></center>
+    </div>
+    <div th:if="${!#lists.isEmpty(boards)}">
+        <form th:action="@{/pins/create}" method="post" enctype="multipart/form-data" th:object="${pinDto}">
+            <label for="title">Başlık:</label><br/>
+            <center><input class="inputbox" type="text" id="title" th:field="*{title}" required /></center><br/><br/>
+
+            <label for="description">Açıklama:</label><br/>
+            <center><textarea style="height: 50px;width: 200px; font-size: 20px"id="description" th:field="*{description}"></textarea></center><br/><br/>
+
+            <label for="image">Resim Yükle:</label><br/>
+            <center><input  class="button_css" type="file" id="image" th:field="*{image}" accept="image/*" required/></center><br/><br/>
+
+            <label for="boardId" >Panoyu Seç:</label><br/>
+            <center><select style="height: 25px;width: 175px; font-size: 20px" id="boardId" th:field="*{boardId}" required>
+                <option   th:each="board : ${boards}" th:value="${board.id}" th:text="${board.name}">Pano Adı</option>
+            </select></center><br/><br/>
+
+            <center><button class="button_css" type="submit">Pin Oluştur</button></center>
+        </form>
+    </div>
+
+
+    </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

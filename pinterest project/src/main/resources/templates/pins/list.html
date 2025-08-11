@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Pin Listesi</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h2>Arama Sonuçları</h2>
+<div class="pin-list">
+  <div th:each="p : ${pins}" class="pin-item">
+    <a th:href="@{'/pins/' + ${p.pin.id}}">
+      <img th:src="'data:image/jpeg;base64,' + ${p.imgBase64}" width="250"/>
+    </a>
+    <h3 th:text="${p.pin.title}">Başlık</h3>
+    <p>
+      Sahip:
+      <span th:text="${p.pin.owner != null ? p.pin.owner.username : 'Silinmiş Kullanıcı'}"/>
+    </p>
+
+    <!-- Sadece giriş yapan kullanıcı ve pin sahibi görsün -->
+    <sec:authorize access="isAuthenticated()">
+      <div th:if="${p.pin.owner != null and p.pin.owner.username == #authentication.name}">
+        <form th:action="@{'/pins/' + ${p.pin.id} + '/edit'}" method="get" style="display: inline">
+          <button type="submit" style="margin-left:10px; background-color:#028011; color: white">Düzenle</button>
+        </form>
+        <form th:action="@{'/pins/' + ${p.pin.id} + '/delete'}" method="post" style="display:inline;">
+          <button onclick="return confirm('Silinsin mi?')" style="color: white; background-color: red">Sil</button>
+        </form>
+      </div>
+    </sec:authorize>
+
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

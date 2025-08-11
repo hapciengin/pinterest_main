@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Anasayfa</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h1>Pinler</h1>
+
+<div class="pin-list">
+  <div th:each="p : ${pins}" class="pin-item">
+    <a th:href="@{'/pins/' + ${p.pin.id}}">
+      <img th:src="'data:image/jpeg;base64,' + ${p.imgBase64}" width="250"/>
+    </a>
+    <h3 th:text="${p.pin.title}">Başlık</h3>
+    <p>
+      Sahip:
+      <span th:text="${p.pin.owner != null ? p.pin.owner.username : 'Silinmiş Kullanıcı'}"></span>
+    </p>
+
+    <!-- Butonlar: sadece giriş yapmış biri görsün -->
+    <div th:if="${currentUser != null}">
+
+      <!-- Admin olan kullanıcılar (her pini yönetebilir) -->
+      <div th:if="${isAdmin}">
+        <form th:action="@{'/pins/' + ${p.pin.id} + '/edit'}" method="get" style="display: inline;">
+          <button style="background-color: #007bff; color: white; border-radius: 5px;">Düzenle (A)</button>
+        </form>
+        <form th:action="@{'/pins/' + ${p.pin.id} + '/delete'}" method="post" style="display: inline;">
+          <button onclick="return confirm('Silinsin mi?')" style="background-color: red; color: white; border-radius: 5px;">Sil (A)</button>
+        </form>
+      </div>
+
+      <!-- Admin değilse ve sadece kendi pin'iyse görsün -->
+      <div th:if="${!isAdmin and p.pin.owner != null and p.pin.owner.id == currentUser.id}">
+        <form th:action="@{'/pins/' + ${p.pin.id} + '/edit'}" method="get" style="display: inline;">
+          <button style="background-color: #28a745; color: white; border-radius: 5px;">Düzenle</button>
+        </form>
+        <form th:action="@{'/pins/' + ${p.pin.id} + '/delete'}" method="post" style="display: inline;">
+          <button onclick="return confirm('Silinsin mi?')" style="background-color: red; color: white; border-radius: 5px;">Sil</button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Profil</title></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="wrapper">
+<div class="center-div">
+
+  <center>
+
+    <table border="1">
+      <tr>
+        <td colspan="2"><center><h2>Profilim</h2></center></td>
+      </tr>
+      <tr>
+        <th><p><strong>KullanıcıAdı:</strong> </p></th>
+        <th><p><span th:text="${user.username}"/></p></th>
+      </tr>
+      <tr>
+        <th><p><strong>E-posta:</strong> </p></th>
+        <th><p><span th:text="${user.email}"/></p></th>
+      </tr>
+    </table>
+  </center>
+
+
+
+
+
+
+<h3>Panolarım</h3>
+<ul>
+  <li th:each="b: ${boards}">
+    <a th:href="@{'/boards/' + ${b.id}}" th:text="${b.name}"/>
+  </li>
+</ul>
+
+<form th:action="@{/profile/delete}" method="get">
+  <button class="button_css">Hesabımı Sil</button>
+
+</form>
+
+</div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
